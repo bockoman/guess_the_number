@@ -11,6 +11,10 @@ let secretNumber = secretNumberFunction();
 let highscore = 0;
 let guessed = false;
 
+function displayMessage(message) {
+  document.querySelector('.message').textContent = `${message}`;
+}
+
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
 
@@ -21,24 +25,24 @@ document.querySelector('.check').addEventListener('click', function () {
     gameWon();
     // proverqvame dali igraem oshte
   } else if (!guessed) {
-    if (guess != secretNumber) {
+    if (guess !== secretNumber) {
       if (score > 0) {
         score--;
         document.querySelector('.score').textContent = score;
       } else {
-        document.querySelector('.message').textContent = `You lost`;
+        displayMessage(`You lost`);
       }
       if (guess < secretNumber) {
-        document.querySelector('.message').textContent = `Higher`;
+        displayMessage(`Higher`);
       } else {
-        document.querySelector('.message').textContent = `Lower`;
+        displayMessage(`Lower`);
       }
     }
   }
 });
 
 function gameWon() {
-  document.querySelector('.message').textContent = `Correct number`;
+  displayMessage(`Correct number`);
   document.querySelector('.number').textContent = secretNumber;
   document.querySelector('body').style.backgroundColor = '#60b347';
   document.querySelector('.number').style.width = '30rem';
