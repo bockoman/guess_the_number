@@ -114,3 +114,16 @@ h1 {
 .label-score {
   margin-bottom: 2rem;
 }
+
+.remaining {
+  position: absolute;
+  bottom: 22rem;
+}
+
+.td {
+  border: 1px solid #eee;
+  text-align: center;
+  font-size: 1rem;
+  height: 3rem;
+  padding: 0.9rem;
+}
