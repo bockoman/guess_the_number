@@ -46,6 +46,16 @@ function displayMessage(message) {
   document.querySelector('.message').textContent = `${message}`;
 }
 
+function checkIfIncludes() {
+  for (let i = 1; i <= 20; i++) {
+    document.getElementById(`${i}`).className = 'impossible';
+  }
+
+  possibleNumbers.forEach((e) => {
+    document.getElementById(`${e}`).className = 'possible';
+  });
+}
+
 function definingArea(num, direction) {
   if (possibleNumbers.includes(num)) {
     if (direction === 'higher') {
@@ -54,12 +64,6 @@ function definingArea(num, direction) {
       possibleNumbers = possibleNumbers.filter((number) => number < num);
     }
   }
-  possibleNumbers.forEach((e) => {
-    if (possibleNumbers.includes(e)) {
-      document.getElementById(`${e}`).className = 'possible';
-    }
-  });
-  console.log(possibleNumbers);
 }
 
 document.querySelector('.check').addEventListener('click', function () {
@@ -76,9 +80,11 @@ document.querySelector('.check').addEventListener('click', function () {
       } else if (guess < secretNumber) {
         displayMessage(`Higher`);
         definingArea(guess, 'higher');
+        checkIfIncludes();
       } else {
         displayMessage(`Lower`);
         definingArea(guess, 'lower');
+        checkIfIncludes();
       }
       if (score === 0) {
         gameLost();
@@ -107,7 +113,8 @@ function gameWon() {
     highscore = score;
     document.querySelector('.highscore').textContent = highscore;
   }
-  possibleNumbers = [secretNumber];
+  possibleNumbers = [];
+  checkIfIncludes();
 }
 
 function reset() {
@@ -123,6 +130,7 @@ function reset() {
   secretNumber = secretNumberFunction();
   document.querySelector('.number').style.width = '15rem';
   document.querySelector('.number').textContent = '?';
+  checkIfIncludes();
 }
 
 document.querySelector('.again').addEventListener('click', function () {
