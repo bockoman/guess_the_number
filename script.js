@@ -71,20 +71,26 @@ document.querySelector('.check').addEventListener('click', function () {
 
   if (!guessed && !lost) {
     if (guess !== secretNumber) {
-      if (score > 0) {
-        score--;
-        document.querySelector('.score').textContent = score;
-      }
-      if (!guess || guess < 0 || guess > 20) {
-        document.querySelector('.message').textContent = 'No number.';
+      if (!guess) {
+        displayMessage('No number.');
+      } else if (guess < 0 || guess > 20) {
+        displayMessage('Impossible number');
       } else if (guess < secretNumber) {
         displayMessage(`Higher`);
         definingArea(guess, 'higher');
         checkIfIncludes();
+        if (score > 0) {
+          score--;
+          document.querySelector('.score').textContent = score;
+        }
       } else {
         displayMessage(`Lower`);
         definingArea(guess, 'lower');
         checkIfIncludes();
+        if (score > 0) {
+          score--;
+          document.querySelector('.score').textContent = score;
+        }
       }
       if (score === 0) {
         gameLost();
