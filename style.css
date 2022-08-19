@@ -127,3 +127,7 @@ td {
   width: 3rem;
   height: 3rem;
 }
+
+.possible {
+  background-color: rgb(42, 154, 42);
+}

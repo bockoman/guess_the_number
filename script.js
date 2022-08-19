@@ -1,27 +1,70 @@
 'use strict';
 
-const secretNumberFunction = () => {
-  function reset() {
-    return 0;
-  }
-  return Math.round(Math.random() * (20 - 1) + 1);
-};
 let score = 20;
 let secretNumber = secretNumberFunction();
 let highscore = 0;
 let guessed = false;
 let lost = false;
+let possibleNumbers = [];
+possibleNumbersGenerator(possibleNumbers);
+function possibleNumbersGenerator(array) {
+  for (let i = 1; i <= 20; i++) {
+    array.push(i);
+  }
+}
+const table = document.createElement('table');
+const row1 = document.createElement('tr');
+const row2 = document.createElement('tr');
+const topRow = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+const bottomRow = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
+
+topRow.forEach((e) => {
+  let elementIndex = topRow.indexOf(e);
+  let td = document.createElement('td');
+  td.innerHTML = topRow[elementIndex];
+  td.setAttribute('class', `impossible`);
+  td.setAttribute('id', `${e}`);
+  row1.appendChild(td);
+});
+bottomRow.forEach((e) => {
+  let elementIndex = bottomRow.indexOf(e);
+  let td = document.createElement('td');
+  td.innerHTML = bottomRow[elementIndex];
+  td.setAttribute('class', `impossible`);
+  td.setAttribute('id', `${e}`);
+  row2.appendChild(td);
+});
+table.appendChild(row1);
+table.appendChild(row2);
+document.getElementById('left').appendChild(table);
+
+function secretNumberFunction() {
+  return Math.round(Math.random() * (20 - 1) + 1);
+}
 
 function displayMessage(message) {
   document.querySelector('.message').textContent = `${message}`;
 }
 
+function definingArea(num, direction) {
+  if (possibleNumbers.includes(num)) {
+    if (direction === 'higher') {
+      possibleNumbers = possibleNumbers.filter((number) => number > num);
+    } else {
+      possibleNumbers = possibleNumbers.filter((number) => number < num);
+    }
+  }
+  possibleNumbers.forEach((e) => {
+    if (possibleNumbers.includes(e)) {
+      document.getElementById(`${e}`).className = 'possible';
+    }
+  });
+  console.log(possibleNumbers);
+}
+
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
 
-  // if (!guess) {
-  //   document.querySelector('.message').textContent = 'No number.';
-  // proverqvame dali igraem oshte
   if (!guessed && !lost) {
     if (guess !== secretNumber) {
       if (score > 0) {
@@ -32,8 +75,10 @@ document.querySelector('.check').addEventListener('click', function () {
         document.querySelector('.message').textContent = 'No number.';
       } else if (guess < secretNumber) {
         displayMessage(`Higher`);
+        definingArea(guess, 'higher');
       } else {
         displayMessage(`Lower`);
+        definingArea(guess, 'lower');
       }
       if (score === 0) {
         gameLost();
@@ -62,11 +107,15 @@ function gameWon() {
     highscore = score;
     document.querySelector('.highscore').textContent = highscore;
   }
+  possibleNumbers = [secretNumber];
 }
 
 function reset() {
   guessed = false;
+  lost = false;
   score = 20;
+  possibleNumbers = [];
+  possibleNumbersGenerator(possibleNumbers);
   document.querySelector('.score').textContent = score;
   document.querySelector('input').value = '';
   document.querySelector('.message').textContent = `Start guessing`;
@@ -79,27 +128,3 @@ function reset() {
 document.querySelector('.again').addEventListener('click', function () {
   reset();
 });
-
-const table = document.createElement('table');
-const row1 = document.createElement('tr');
-const row2 = document.createElement('tr');
-const topRow = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
-const bottomRow = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
-
-topRow.forEach((e) => {
-  let elementIndex = topRow.indexOf(e);
-  let td = document.createElement('td');
-  td.innerHTML = topRow[elementIndex];
-  row1.appendChild(td);
-});
-bottomRow.forEach((e) => {
-  let elementIndex = bottomRow.indexOf(e);
-  let td = document.createElement('td');
-  td.innerHTML = bottomRow[elementIndex];
-  row2.appendChild(td);
-});
-
-table.appendChild(row1);
-table.appendChild(row2);
-
-document.getElementById('left').appendChild(table);
