@@ -75,7 +75,7 @@ document.querySelector('.check').addEventListener('click', function () {
         score--;
         document.querySelector('.score').textContent = score;
       }
-      if (!guess) {
+      if (!guess || guess < 0 || guess > 20) {
         document.querySelector('.message').textContent = 'No number.';
       } else if (guess < secretNumber) {
         displayMessage(`Higher`);
