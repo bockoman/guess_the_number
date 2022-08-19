@@ -10,6 +10,7 @@ let score = 20;
 let secretNumber = secretNumberFunction();
 let highscore = 0;
 let guessed = false;
+let lost = false;
 
 function displayMessage(message) {
   document.querySelector('.message').textContent = `${message}`;
@@ -18,28 +19,39 @@ function displayMessage(message) {
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
 
-  if (!guess) {
-    document.querySelector('.message').textContent = 'No number.';
-  } else if (guess === secretNumber) {
-    guessed = true;
-    gameWon();
-    // proverqvame dali igraem oshte
-  } else if (!guessed) {
+  // if (!guess) {
+  //   document.querySelector('.message').textContent = 'No number.';
+  // proverqvame dali igraem oshte
+  if (!guessed && !lost) {
     if (guess !== secretNumber) {
       if (score > 0) {
         score--;
         document.querySelector('.score').textContent = score;
-      } else {
-        displayMessage(`You lost`);
       }
-      if (guess < secretNumber) {
+      if (!guess) {
+        document.querySelector('.message').textContent = 'No number.';
+      } else if (guess < secretNumber) {
         displayMessage(`Higher`);
       } else {
         displayMessage(`Lower`);
       }
+      if (score === 0) {
+        gameLost();
+        lost = true;
+      }
+    } else if (guess === secretNumber) {
+      guessed = true;
+      gameWon();
     }
   }
 });
+
+function gameLost() {
+  displayMessage(`Game lost`);
+  document.querySelector('.number').textContent = secretNumber;
+  document.querySelector('body').style.backgroundColor = 'rgb(97, 1, 1)';
+  document.querySelector('.number').style.width = '30rem';
+}
 
 function gameWon() {
   displayMessage(`Correct number`);
