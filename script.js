@@ -90,4 +90,4 @@ bottomRow.forEach((e) => {
 table.appendChild(row1);
 table.appendChild(row2);
 
-document.getElementById('right').appendChild(table);
+document.getElementById('left').appendChild(table);

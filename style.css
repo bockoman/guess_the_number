@@ -115,16 +115,15 @@ h1 {
   margin-bottom: 2rem;
 }
 
-/* .remaining {
-  position: absolute;
-  bottom: 22rem;
+table {
+  padding-top: 2rem;
 }
 
-.row,
+.tr,
 td {
   border: 1px solid #eee;
   text-align: center;
   font-size: 1rem;
+  width: 3rem;
   height: 3rem;
-  padding: 0.9rem;
-} */
+}
