@@ -67,3 +67,27 @@ function reset() {
 document.querySelector('.again').addEventListener('click', function () {
   reset();
 });
+
+const table = document.createElement('table');
+const row1 = document.createElement('tr');
+const row2 = document.createElement('tr');
+const topRow = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+const bottomRow = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
+
+topRow.forEach((e) => {
+  let elementIndex = topRow.indexOf(e);
+  let td = document.createElement('td');
+  td.innerHTML = topRow[elementIndex];
+  row1.appendChild(td);
+});
+bottomRow.forEach((e) => {
+  let elementIndex = bottomRow.indexOf(e);
+  let td = document.createElement('td');
+  td.innerHTML = bottomRow[elementIndex];
+  row2.appendChild(td);
+});
+
+table.appendChild(row1);
+table.appendChild(row2);
+
+document.getElementById('right').appendChild(table);
